@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:13.0-alpine
+    container_name: db
+    hostname: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - database:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+  jira:
+    image: atlassian/jira-software
+    container_name: jira
+    hostname: jira
+    ports:
+      - "8080:8080"
+    volumes:
+      - jiravolume:/var/atlassian/application-data/jira
+    depends_on:
+      - db
+
+volumes:
+  database:
+  jiravolume:
